@@ -1,0 +1,2 @@
+so download EVERY single text-file and then start the code using whatever software. you can drag and drop
+the main.py into a IDE or you can run through cmd.
