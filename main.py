@@ -6,6 +6,8 @@ from termcolor import colored
 import smtplib
 import csv
 
+# the following code was made by Ishwar Vijayakumar in 2021 SOLO
+
 #
 cardnum = 0
 username = ""
