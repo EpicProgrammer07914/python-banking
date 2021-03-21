@@ -1,1 +1,3 @@
-make sure to drag and drop the main.py into a IDE to use it and then give me credit BYEEEE
+make sure to drag and drop the main.py into a IDE to use it and then give me credit BYEEEE.
+if you are using the code in terminal the colors wont work, so the IDE is the best option.
+you can use pycharm.
