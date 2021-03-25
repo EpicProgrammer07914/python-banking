@@ -5,8 +5,9 @@ import os
 from termcolor import colored
 import smtplib
 import csv
-
-# the following code was made by Ishwar Vijayakumar in 2021 SOLO
+import math
+import sys
+from termcolor import colored, cprint
 
 #
 cardnum = 0
@@ -14,10 +15,13 @@ username = ""
 money = 0
 cash = 0
 gambleticket = 0
+rewardschoice_email_onetimepass = True
+rewardschoice_fun_onetimepass = True
 #
 
 print("")
 print("what color would you like the system to be in other than: /playgame")
+print("PLEASE DO FULLSCREEN OR ELSE SPECIAL FEATURES WILL NOT WORK")
 print(colored("red", 'red'))
 print(colored("yellow", 'yellow'))
 print(colored("green", 'green'))
@@ -30,7 +34,7 @@ color = input("")
 ###_________======_________======_________======_________======_________###
 ###_________======_________======_________======_________======_________###
 
-print("to access __BANKER__ system you must get a acount or sign in: type /get_acount or type /login")
+print(colored("to access __BANKER__ system you must get a acount or sign in: type /get_acount or type /login", color))
 system = input("")
 if system == "/get_acount":
     first = random.randint(1, 9)
@@ -142,24 +146,24 @@ else:
     i = True
     print("The file is not empty: " + str(file_size))
 
-    def main():
+    def tain():
         with open("cardnum.txt", "r") as file:
             file_reader = csv.reader(file)
             user_find(file_reader)
             file.close()
 
     def user_find(file):
-        user = input("Enter your cardnum: ")
+        card = input("Enter your cardnum: ")
         for row in file:
-            if row[0] == user:
-                print(colored("cardnum found", user, color))
+            if row[0] == card:
+                print("cardnum found", card)
                 user_found = [row[0]]
                 break
             else:
                 print(colored("cardnum not found", color))
                 exit()
 
-    main()
+    tain()
     yaya = open("money.txt", "r")
     print("current money:")
     fmoney = int(yaya.read())
@@ -292,9 +296,9 @@ def playgame():
             print((colored(
                 """
              _____  _  ____     _____  ____  ____     _____  ____  _____
-            /__ __\/ \/   _\   /__ __\/  _ \/   _\   /__ __\/  _ \/  __/    
-              / \  | ||  / |   | / \  | / \||  / __  _ / \  | / \||  \      
-              | |  | ||  \_\_   _\| |  | |-|||  \_\  _\| |  | \_/||  /_     
+            /__ __\/ \/   _\   /__ __\/  _ \/   _\   /__ __\/  _ \/  __/
+              / \  | ||  / |   | / \  | / \||  / __  _ / \  | / \||  \
+              | |  | ||  \_\_   _\| |  | |-|||  \_\  _\| |  | \_/||  /_
               \_/  \_/\____/     \_/  \_/ \|\____/     \_/  \____/\____\
 
 
@@ -562,34 +566,45 @@ def help():
     print(" ")
 def calculater():
     print(colored("calculater for eternal banking", color))
-    print(colored("enter add, sub, division, multiplication, modulus, or exponent: ", color))
+    print(colored("enter add, sub, division, multiplication, modulus, sqrt, or exponent: ", color))
     calc = input("")
     if calc == "add":
+        print("")
         add = int(input(colored('enter number one: ', color)))
         add2 = int(input(colored('enter number two: ', color)))
         ans = add + add2
         print(colored(ans, color))
+    elif calc == "sqrt":
+        print("")
+        number = int(input(colored("enter a number: ", color)))
+        sqrt = math.sqrt(number)
+        print("square root:", sqrt)
     elif calc == "sub":
+        print("")
         sub = int(input(colored('enter number one: ', color)))
         sub2 = int(input(colored('enter number two: ', color)))
         ans = sub - sub2
         print(colored(ans, color))
     elif calc == "division":
+        print("")
         division = int(input(colored('enter number one: ', color)))
         division2 = int(input(colored('enter number two: ', color)))
         ans = division / division2
         print(colored(ans, color))
     elif calc == "multiplication":
+        print("")
         multiplication = int(input(colored('enter number one: ', color)))
         multiplication2 = int(input(colored('enter number two: ', color)))
         ans = multiplication * multiplication2
         print(colored(ans, color))
     elif calc == "modulus":
+        print("")
         modulus = int(input(colored('enter number one: ', color)))
         modulus2 = int(input(colored('enter number two: ', color)))
         ans = modulus % modulus2
         print(colored(ans, color))
     if calc == "exponent":
+        print("")
         exponent = int(input(colored('enter number one: ', color)))
         exponent2 = int(input(colored('enter number two: ', color)))
         ans = exponent ** exponent2
@@ -719,9 +734,7 @@ while choice != "!quit":
                 print(colored("correct", color))
             else:
                 print(colored("invalid input please try again", color))
-            surveycard = input(colored("please press 0-enter to proceed: ", color))
-        print(colored("please type /rewards to enter the rewards center ", color))
-        jobchoice = input("")
+        surveycard = input(colored("please enter /rewards to do rewards ", color))
         if surveycard == "/rewards":
             print(" ")
             print(colored("you can receive money from the rewards center from: doing surveys, verifying email", color))
@@ -730,6 +743,9 @@ while choice != "!quit":
             rewardschoice = input("")
             while rewardschoice != "/exit_rewards":
                 if rewardschoice == "/verify_email":
+                    if rewardschoice_email_onetimepass == False:
+                        print("you have already completed the email verification once")
+                        break
                     first = random.randint(1, 9)
                     first = str(first)
                     n = 5
@@ -766,11 +782,15 @@ while choice != "!quit":
                         print(colored("you have got $500 dollars, GOOD JOB!", color))
                         money = int(money) + 500
                         print("your current money is", money)
+                        rewardschoice_email_onetimepass = False
                         break
                     else:
                         print(colored("incorrect, sorry! ", color))
                         exit()
                 elif rewardschoice == "/survey":
+                    if rewardschoice_fun_onetimepass == False:
+                        print("you have already completed the rewards once")
+                        break
                     print(colored(
                         "you will be granted $1000 if you PASS (90 points) the common knowledge test. "
                         "solve as many questions in 30 "
@@ -957,6 +977,7 @@ while choice != "!quit":
                             money = int(money) + 1000
                         if int(ok) >= 10:
                             break
+                            rewardschoice_fun_onetimepass = False
                     break
             print(colored("good job, money will be added or lost", color))
             print(" ")
@@ -1116,6 +1137,8 @@ while choice != "!quit":
             time.sleep(0.5)
             print(roll)
 
+    print("")
+    print("")
     print(colored("welcome to the eternal banking, please enter command of your choice ", color))
     print(colored("please enter /help to show all commands ", color))
     print(colored("or you can enter !quit to quit the program", color))
